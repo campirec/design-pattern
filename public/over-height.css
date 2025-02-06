@@ -1,0 +1,15 @@
+.over-height {
+  position: relative;
+  border: 1px solid red;
+  width: 200px;
+  height: 200px;
+  overflow: auto;
+}
+
+.over-height::after {
+  content: "";
+  display: block;
+  width: 100%;
+  background-color: aqua;
+  height: 800px;
+}
