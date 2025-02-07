@@ -22,12 +22,12 @@ type StrategiesKeys = keyof typeof strategies
 export class Validator {
   private cache: Array<() => string | void> = []
   add(value: string, rule: string, errorMsg: string) {
-    let arr = rule.split(':')
-    this.cache.push(() => {
+    const arr = rule.split(':')
+    this.cache.push(function() {
       const strategy = arr.shift()
-      arr = [...arr, errorMsg]
+      const restParams = [value, ...arr, errorMsg]
       if (strategy) {
-        return (strategies[strategy as StrategiesKeys] as Function)(value, ...arr)
+        return (strategies[strategy as StrategiesKeys] as Function)(...restParams)
       }
     })
   }
@@ -35,8 +35,13 @@ export class Validator {
     for (let i = 0; i < this.cache.length; i++) {
       const msg = this.cache[i]()
       if (msg) {
+        this.clear()
         return msg
       }
     }
+  }
+
+  clear() {
+    this.cache = []
   }
 }

@@ -9,12 +9,9 @@ import { querySelector } from '../utils'
  */
 
 const registerForm = querySelector('#registerForm')
-const validator = new Validator()
 registerForm!.addEventListener('submit', function(e) {
+  const validator = new Validator()
   const form = registerForm as HTMLFormElement
-  console.dir(form.username.value)
-  console.dir(form.password.value)
-  console.dir(form.mobile.value)
   e.preventDefault()
   // if(!form.username.value) {
   //   return alert('用户名不能为空')
@@ -28,7 +25,8 @@ registerForm!.addEventListener('submit', function(e) {
   // }
  
   validator.add(form.username.value, 'isNotEmpty', '用户名不能为空')
-  validator.add(form.password.value, 'minLength: 6', '密码长度不能少于6位')
+  validator.add(form.username.value, 'minLength:6', '用户名长度不能少于6位')
+  validator.add(form.password.value, 'minLength:6', '密码长度不能少于6位')
   validator.add(form.mobile.value, 'isMobile', '手机号格式不正确')
 
   const errMsg = validator.start()
